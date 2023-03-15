@@ -48,14 +48,14 @@ def make_table(
 @dataclasses.dataclass()
 class Section:
     title: str
-    id: str
+    html_id: str
     components: list
 
 
 @dataclasses.dataclass()
 class Component:
     title: str
-    id: str
+    html_id: str
     data: Optional[str] = None
     text: Optional[str] = None
     html: Optional[str] = None
@@ -81,13 +81,17 @@ class Report:
 
     def add_section(self, title: str, html_id: Optional[str] = None):
         self.schema[title] = Section(
-            title=title, id=html_id if html_id else default_id(title), components=[]
+            title=title,
+            html_id=html_id if html_id else default_id(title),
+            components=[],
         )
 
     def add_subsection(self, section: str, title: str, html_id: Optional[str] = None):
         self.schema[section].components.append(
             Section(
-                title=title, id=html_id if html_id else default_id(title), components=[]
+                title=title,
+                html_id=html_id if html_id else default_id(title),
+                components=[],
             )
         )
 
@@ -103,7 +107,7 @@ class Report:
         self.schema[section].components.append(
             Component(
                 title=title,
-                id=html_id if html_id else default_id(title),
+                html_id=html_id if html_id else default_id(title),
                 data=data,
                 text=text,
                 html=html,

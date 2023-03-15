@@ -26,12 +26,12 @@
                 <div class="navbar-item has-text-info-dark has-text-weight-bold" id="{{ name }}">{{ name }}</div>
                 {% for section in schema.values() %}
                     <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link" href="#{{ section.id }}">
+                        <a class="navbar-link" href="#{{ section.html_id }}">
                             {{ section.title }}
                         </a>
                         <div class="navbar-dropdown">
                             {% for comp in section.components %}
-                                <a class="navbar-item" href="#{{ comp.id }}">
+                                <a class="navbar-item" href="#{{ comp.html_id }}">
                                     {{ comp.title }}
                                 </a>
                             {% endfor %}

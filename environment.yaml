@@ -1,0 +1,22 @@
+name: qbrief
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - bzip2=1.0.8
+  - ca-certificates=2022.12.7
+  - libffi=3.4.2
+  - libsqlite=3.40.0
+  - libzlib=1.2.13
+  - ncurses=6.3
+  - openssl=3.1.0
+  - pip=23.0.1
+  - python=3.9.16
+  - readline=8.1.2
+  - setuptools=67.6.0
+  - tk=8.6.12
+  - tzdata=2022g
+  - wheel=0.40.0
+  - xz=5.2.6
+  - pip:
+      - -r requirements.txt

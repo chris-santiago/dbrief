@@ -1,0 +1,139 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "dbrief"
+version = "0.1.0"
+description = "Python package for quickly creating lightweight HTML reports"
+readme = "README.md"
+license = { text ="MIT License" }
+requires-python = ">=3.9"
+
+authors = [
+    { name="Chris Santiago", email="cjsantiago@gatech.edu"}
+]
+
+dependencies = [
+    "omegaconf",
+    "hvplot",
+    "pandas",
+    "bokeh",
+    "jinja2",
+]
+
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "myst-parser",
+    "tomli"
+]
+
+tests = [
+    "coverage",
+    "pytest",
+    "pytest-cov",
+    "toml",
+    "pre-commit-hooks"
+]
+
+qa = [
+    "pre-commit",
+    "black",
+    "flake8",
+    "flake8-docstrings",
+    "mypy",
+    "nox",
+    "check-manifest",
+    "isort",
+    "pylint",
+    "check-manifest",
+    "pip-tools"
+]
+
+build = [
+    "twine",
+    "wheel",
+]
+
+dev = [
+    "dbrief[docs]",
+    "dbrief[tests]",
+    "dbrief[qa]",
+    "dbrief[build]",
+]
+
+
+[project.urls]
+"Sourcecode" = "https://github.com/chris-santiago/dbrief"
+"Documentation" = "https://chris-santiago.github.io/dbrief/"
+
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests/*"]
+
+
+[tool.check-manifest]
+ignore = [
+    "docs",
+    "docs/**",
+    "notebooks",
+    "notebooks/**",
+    ".pre-commit-config.yaml",
+    ".gitignore",
+    ".pylintrc",
+    "Makefile",
+    "noxfile.py",
+    "init.sh",
+]
+
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+line_length = 100
+
+
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+
+[tool.pylint.master]
+fail-under = 9.0
+ignore-patterns = "test"
+disable = [
+    # Disable these for scikit-learn style code
+    "invalid-name",
+    "attribute-defined-outside-init",
+]
+
+
+[tool.pylint.format]
+max-line-length = 100
+max-module-lines = 1000
+
+
+[tool.pylint.similarities]
+min-similarity-lines = 4
+ignore-comments = "yes"
+ignore-docstrings = "yes"
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests/"]
+addopts = "--cov=dbrief --cov-report=html --verbose"
+
+[tool.ruff]
+line-length = 100

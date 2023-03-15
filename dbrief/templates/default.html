@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ name }}</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+    <body>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                {% if logo %}
+                    <a class="navbar-item">
+                        <img src="{{ logo.image }}" width="{{ logo.width }}"
+                        height="{{ logo.height }}">
+                    </a>
+                {% endif %}
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-item has-text-info-dark has-text-weight-bold" id="{{ name }}">{{ name }}</div>
+                {% for section in schema.values() %}
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link" href="#{{ section.id }}">
+                            {{ section.title }}
+                        </a>
+                        <div class="navbar-dropdown">
+                            {% for comp in section.components %}
+                                <a class="navbar-item" href="#{{ comp.id }}">
+                                    {{ comp.title }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="navbar-end">
+                </div>
+            </div>
+        </nav>
+        {% for section in schema.values() %}
+            <section class="section" id="{{ section.html_id }}">
+                <div class="container">
+                    <div class="block"><h1 class="title">{{ section.title }}</h1></div>
+                    {% for row in section.components|batch(2) %}
+                        <div class="columns">
+                            {% for column in row %}
+                                <div class="column" id="{{ column.html_id }}">
+                                    <h2 class="subtitle">{{ column.title }}</h2>
+                                    {% if column.text %}
+                                        <div class="block">
+                                            {{ column.text }}
+                                        </div>
+                                    {% endif %}
+                                    <iframe class="has-ratio" width="654" height="327"
+                                    src="{{ column.html }}"></iframe>
+                                    {% if column.data %}
+                                        <iframe class="has-ratio" width="654" height="327"
+                                        src="{{ column.data }}"></iframe>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="column">
+                    <a class="button is-small" href="#{{ name }}">Back to top</a>
+                </div>
+            </section>
+        {% endfor %}
+    </body>
+</html>

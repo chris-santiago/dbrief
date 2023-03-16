@@ -22,9 +22,14 @@ def default_id(title: str) -> str:
 
 
 def make_figure(data: pd.DataFrame, html_id: str, cols: list, file_dir: str = ".html"):
-    fig = data.hvplot(y=cols, value_label="Value", width=600).opts(
-        legend_position="bottom_left"
-    )
+
+    if data.shape[1] >= 2:
+        fig = data.hvplot(y=cols, value_label="Value", width=600).opts(
+            legend_position="bottom_left"
+        )
+    else:
+        fig = data.hvplot(y=cols, value_label="Value", width=600)
+
     bk_fig = hvplot.render(fig, backend="bokeh")
     pathlib.Path(file_dir).mkdir(exist_ok=True)
     file_path = pathlib.Path(file_dir).joinpath(f"{html_id}.html")

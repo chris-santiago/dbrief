@@ -11,6 +11,7 @@ from bokeh.embed import file_html
 from bokeh.resources import CDN
 
 DEFAULT_ROWS = 7
+DEFAULT_LEGEND = "bottom"
 HERE = pathlib.Path(__file__)
 PKG = HERE.parent
 TEMPLATES = PKG.joinpath("templates")
@@ -25,7 +26,7 @@ def make_figure(data: pd.DataFrame, html_id: str, cols: list, file_dir: str = ".
 
     if data.shape[1] >= 2:
         fig = data.hvplot(y=cols, value_label="Value", width=600).opts(
-            legend_position="bottom_left"
+            legend_position=DEFAULT_LEGEND
         )
     else:
         fig = data.hvplot(y=cols, value_label="Value", width=600)

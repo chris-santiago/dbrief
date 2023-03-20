@@ -22,7 +22,7 @@ def default_id(title: str) -> str:
     return re.sub("[^0-9a-zA-Z]+", "-", title).lower()
 
 
-def make_figure(data: pd.DataFrame, html_id: str, cols: list, file_dir: str = ".html"):
+def make_figure(data: pd.DataFrame, cols: list):
 
     if data.shape[1] >= 2:
         fig = data.hvplot(y=cols, value_label="Value", width=600).opts(
@@ -32,23 +32,15 @@ def make_figure(data: pd.DataFrame, html_id: str, cols: list, file_dir: str = ".
         fig = data.hvplot(y=cols, value_label="Value", width=600)
 
     bk_fig = hvplot.render(fig, backend="bokeh")
-    pathlib.Path(file_dir).mkdir(exist_ok=True)
-    file_path = pathlib.Path(file_dir).joinpath(f"{html_id}.html")
-    with open(file_path, "w") as fp:
-        fp.write(file_html(bk_fig, CDN))
-    return str(file_path)
+    return file_html(bk_fig, CDN)
 
 
 def make_table(
-    data: pd.DataFrame, html_id: str, cols: list, n_rows: int, file_dir: str = ".html"
+    data: pd.DataFrame, cols: list, n_rows: int
 ):
     table = data[cols].tail(n_rows).hvplot.table()
     bk_table = hvplot.render(table, backend="bokeh")
-    pathlib.Path(file_dir).mkdir(exist_ok=True)
-    file_path = pathlib.Path(file_dir).joinpath(f"{html_id}-data.html")
-    with open(file_path, "w") as fp:
-        fp.write(file_html(bk_table, CDN))
-    return str(file_path)
+    return file_html(bk_table, CDN)
 
 
 @dataclasses.dataclass()
@@ -132,19 +124,17 @@ class Report:
     ):
         html_id = html_id if html_id else default_id(title)
         fig_path = make_figure(
-            data=data, html_id=html_id, cols=cols if cols else data.columns
+            data=data, cols=cols if cols else data.columns
         )
         if isinstance(include_data, bool):
             table_path = make_table(
                 data=data,
-                html_id=html_id,
                 cols=cols if cols else data.columns,
                 n_rows=DEFAULT_ROWS,
             )
         elif isinstance(include_data, int):
             table_path = make_table(
                 data=data,
-                html_id=html_id,
                 cols=cols if cols else data.columns,
                 n_rows=include_data,
             )

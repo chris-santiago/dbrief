@@ -57,10 +57,10 @@
                                         </div>
                                     {% endif %}
                                     <iframe class="has-ratio" width="800" height="400"
-                                    src="{{ column.html }}"></iframe>
+                                    srcdoc="{{ column.html.replace('"', "&quot;") }}"></iframe>
                                     {% if column.data %}
                                         <iframe class="has-ratio" width="800" height="400"
-                                        src="{{ column.data }}"></iframe>
+                                        srcdoc="{{ column.data.replace('"', "&quot;") }}"></iframe>
                                     {% endif %}
                                 </div>
                             {% endfor %}
